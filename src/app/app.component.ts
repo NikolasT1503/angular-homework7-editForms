@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import mathData from '../assets/mathData.json';
+import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
 
 export interface Lesson {
   id: string;
@@ -21,7 +23,7 @@ export class AppComponent implements OnInit {
   buttonName = 'Добавить';
   flagEdit: boolean;
 
-  constructor(private formBuilder: FormBuilder){}
+  constructor(private formBuilder: FormBuilder/* , datePipe: DatePipe */){}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -30,6 +32,7 @@ export class AppComponent implements OnInit {
         disabled: false,
       },[Validators.required, Validators.pattern('[0-9]*'), Validators.min(1)]),
       dateLesson: this.formBuilder.control('', [Validators.required, this.currentDateValidator]),
+      /* dateLesson: this.formBuilder.control('', [Validators.required, CustomValidators.minDate]), */
       theme: this.formBuilder.control('', [Validators.required, Validators.pattern('[A-Za-z0-9_]*')]),
       homework: this.formBuilder.control('',[Validators.required, Validators.pattern('[A-Za-z0-9_]*')]),
       note: this.formBuilder.control(''),
@@ -71,13 +74,29 @@ export class AppComponent implements OnInit {
 
 
   currentDateValidator(control: FormControl): any {
-    let controlDate = Date.parse(control.value);
+    /* let controlDate = new Date(Date.parse(control.value)); */
+    let controlDate = new Date(control.value);
+    let currentDate = new Date();
+    let year = controlDate.getFullYear();
+    let month = controlDate.getMonth();
+    let day = controlDate.getDate();
+    
+    if ((year >= currentDate.getFullYear()) && (month >= currentDate.getMonth()) && (day >= currentDate.getDate())) {
+      return null;
+    } else {
+      return { date: true }
+    }
+  }
 
-    if (controlDate < Date.now()) {
-      return { date: true };
+
+/*     currentDateValidator(control: FormControl): any {
+    let controlDate = control.value;
+    if (moment().isAfter(controlDate, 'day')) {
+      return { date: true }
     }
     return null;
-  }
+  } */
+  
   
 /*   currentDateValidator(): ValidatorFn {
     return (
