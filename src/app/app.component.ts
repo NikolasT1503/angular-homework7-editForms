@@ -30,8 +30,8 @@ export class AppComponent implements OnInit {
         disabled: false,
       },[Validators.required, Validators.pattern('[0-9]*'), Validators.min(1)]),
       dateLesson: this.formBuilder.control('', [Validators.required, this.currentDateValidator]),
-      theme: this.formBuilder.control('', [Validators.required, Validators.pattern('\w')]),
-      homework: this.formBuilder.control('',[Validators.required, Validators.pattern('\w')]),
+      theme: this.formBuilder.control('', [Validators.required, Validators.pattern('[A-Za-z0-9_]*')]),
+      homework: this.formBuilder.control('',[Validators.required, Validators.pattern('[A-Za-z0-9_]*')]),
       note: this.formBuilder.control(''),
     });
   }
@@ -57,8 +57,8 @@ export class AppComponent implements OnInit {
         disabled: false,
       }),
       dateLesson: this.formBuilder.control(this.lessonsData[id].dateLesson, [Validators.required, this.currentDateValidator]),
-      theme: this.formBuilder.control(this.lessonsData[id].theme, [Validators.required, Validators.pattern('\w')]),
-      homework: this.formBuilder.control(this.lessonsData[id].homework,[Validators.required, Validators.pattern('\w')]),
+      theme: this.formBuilder.control(this.lessonsData[id].theme, [Validators.required, Validators.pattern('[A-Za-z0-9_]*')]),
+      homework: this.formBuilder.control(this.lessonsData[id].homework,[Validators.required, Validators.pattern('[A-Za-z0-9_]*')]),
       note: this.formBuilder.control(this.lessonsData[id].note),
     });
     this.buttonName='Изменить';
