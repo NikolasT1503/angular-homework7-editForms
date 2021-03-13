@@ -1,0 +1,7 @@
+.validateFalse{
+    color: red;
+}
+.validateTrue{
+    color: green;
+    font-weight: bold;
+}

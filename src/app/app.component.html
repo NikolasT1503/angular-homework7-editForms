@@ -6,14 +6,21 @@
     <tr>
         <th>Дата урока</th>
         <td><input type="date" formControlName="dateLesson"></td>
+        <span *ngIf="form.get('dateLesson').invalid" class="validateFalse">*</span>
+        <span *ngIf="form.get('dateLesson').invalid">Дата меньше текущей</span>
+        <span *ngIf="form.get('dateLesson').valid" class="validateTrue">v</span>
     </tr>
     <tr>
         <th>Тема</th>
         <td><input type="text" formControlName="theme"></td>
+        <span *ngIf="form.get('theme').invalid" class="validateFalse">*</span>
+        <span *ngIf="form.get('theme').valid" class="validateTrue">v</span>
     </tr>
     <tr>
         <th>Домашнее задание</th>
         <td><input type="text" formControlName="homework"></td>
+        <span *ngIf="form.get('homework').invalid" class="validateFalse">*</span>
+        <span *ngIf="form.get('homework').valid" class="validateTrue">v</span>
     </tr>
     <tr>
         <th>Примечание</th>

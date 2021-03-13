@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import mathData from '../assets/mathData.json';
 
 export interface Lesson {
@@ -28,10 +28,10 @@ export class AppComponent implements OnInit {
       id: this.formBuilder.control({
         value: this.lessonsData.length,
         disabled: false,
-      }),
-      dateLesson: this.formBuilder.control('', Validators.required),
-      theme: this.formBuilder.control('', Validators.required),
-      homework: this.formBuilder.control(''),
+      },[Validators.required, Validators.pattern('[0-9]*'), Validators.min(1)]),
+      dateLesson: this.formBuilder.control('', [Validators.required, this.currentDateValidator]),
+      theme: this.formBuilder.control('', [Validators.required, Validators.pattern('\w')]),
+      homework: this.formBuilder.control('',[Validators.required, Validators.pattern('\w')]),
       note: this.formBuilder.control(''),
     });
   }
@@ -56,9 +56,9 @@ export class AppComponent implements OnInit {
         value: this.lessonsData[id].id,
         disabled: false,
       }),
-      dateLesson: this.formBuilder.control(this.lessonsData[id].dateLesson, Validators.required),
-      theme: this.formBuilder.control(this.lessonsData[id].theme, Validators.required),
-      homework: this.formBuilder.control(this.lessonsData[id].homework),
+      dateLesson: this.formBuilder.control(this.lessonsData[id].dateLesson, [Validators.required, this.currentDateValidator]),
+      theme: this.formBuilder.control(this.lessonsData[id].theme, [Validators.required, Validators.pattern('\w')]),
+      homework: this.formBuilder.control(this.lessonsData[id].homework,[Validators.required, Validators.pattern('\w')]),
       note: this.formBuilder.control(this.lessonsData[id].note),
     });
     this.buttonName='Изменить';
@@ -69,4 +69,24 @@ export class AppComponent implements OnInit {
     this.lessonsData.splice(id,1);
   }
 
+
+  currentDateValidator(control: FormControl): any {
+    let controlDate = Date.parse(control.value);
+
+    if (controlDate < Date.now()) {
+      return { date: true };
+    }
+    return null;
+  }
+  
+/*   currentDateValidator(): ValidatorFn {
+    return (
+      control: AbstractControl
+    ): {[key: string]: boolean } | null => {
+            let controlDate = Date.parse(control.value);
+            let curDate = Date.now();
+            let valid = controlDate < curDate
+            return valid ? null : {date: true} 
+          }
+  } */
 }
