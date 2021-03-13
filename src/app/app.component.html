@@ -1,0 +1,47 @@
+<div>
+  <form [formGroup]="form" novalidate>
+    <table>
+    <caption>Добавление новых уроков</caption>
+        <!-- <label>ID</label><input type="text" formControlName="id">&nbsp; -->
+    <tr>
+        <th>Дата урока</th>
+        <td><input type="date" formControlName="dateLesson"></td>
+    </tr>
+    <tr>
+        <th>Тема</th>
+        <td><input type="text" formControlName="theme"></td>
+    </tr>
+    <tr>
+        <th>Домашнее задание</th>
+        <td><input type="text" formControlName="homework"></td>
+    </tr>
+    <tr>
+        <th>Примечание</th>
+        <td><input type="text" formControlName="note"></td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center"><button (click)="addValue(form.value)">{{buttonName}}</button></td>
+    </tr>
+    </table>
+  </form>
+</div>
+<div>
+  <table>
+      <tr>
+          <th>Номер</th>
+          <th>Дата урока</th>
+          <th>Тема</th>
+          <th>Домашнее задание</th>
+          <th>Примечание</th>
+      </tr>
+      <tr *ngFor="let lesson of lessonsData; let i=index">
+          <td>{{lesson.id}}</td>
+          <td>{{lesson.dateLesson}}</td>
+          <td>{{lesson.theme}}</td>
+          <td>{{lesson.homework}}</td>
+          <td>{{lesson.note}}</td>
+          <td><button (click)="setValueForm(i)">Изменить</button></td>
+          <td><button (click)="deleteValue(i)">Удалить</button></td>
+      </tr>
+  </table>
+</div>
